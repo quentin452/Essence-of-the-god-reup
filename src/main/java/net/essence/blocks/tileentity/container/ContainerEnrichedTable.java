@@ -28,7 +28,7 @@ public class ContainerEnrichedTable extends Container
     private Random rand;
     public long nameSeed;
     public int[] enchantLevels;
-    
+
     public ContainerEnrichedTable(final InventoryPlayer par1InventoryPlayer, final World par2World, final int par3, final int par4, final int par5, final EntityPlayer player) {
         this.craftMatrix = new InventoryCrafting((Container)this, 2, 2);
         this.bigCraftMatrix = new InventoryCrafting((Container)this, 3, 3);
@@ -37,7 +37,7 @@ public class ContainerEnrichedTable extends Container
             public int getInventoryStackLimit() {
                 return 1;
             }
-            
+
             public void markDirty() {
                 super.markDirty();
                 ContainerEnrichedTable.this.onCraftMatrixChanged((IInventory)this);
@@ -75,11 +75,11 @@ public class ContainerEnrichedTable extends Container
                 public int getSlotStackLimit() {
                     return 1;
                 }
-                
+
                 public boolean isItemValid(final ItemStack p_75214_1_) {
                     return p_75214_1_ != null && p_75214_1_.getItem().isValidArmor(p_75214_1_, m, (Entity)player);
                 }
-                
+
                 @SideOnly(Side.CLIENT)
                 public IIcon getBackgroundIconIndex() {
                     return ItemArmor.func_94602_b(m);
@@ -87,24 +87,24 @@ public class ContainerEnrichedTable extends Container
             });
         }
     }
-    
+
     public void addCraftingToCrafters(final ICrafting par1ICrafting) {
         super.addCraftingToCrafters(par1ICrafting);
         par1ICrafting.sendProgressBarUpdate((Container)this, 0, this.enchantLevels[0]);
         par1ICrafting.sendProgressBarUpdate((Container)this, 1, this.enchantLevels[1]);
         par1ICrafting.sendProgressBarUpdate((Container)this, 2, this.enchantLevels[2]);
     }
-    
+
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
         for (int i = 0; i < this.crafters.size(); ++i) {
-            final ICrafting icrafting = this.crafters.get(i);
+            final ICrafting icrafting = (ICrafting) this.crafters.get(i);
             icrafting.sendProgressBarUpdate((Container)this, 0, this.enchantLevels[0]);
             icrafting.sendProgressBarUpdate((Container)this, 1, this.enchantLevels[1]);
             icrafting.sendProgressBarUpdate((Container)this, 2, this.enchantLevels[2]);
         }
     }
-    
+
     @SideOnly(Side.CLIENT)
     public void updateProgressBar(final int par1, final int par2) {
         if (par1 >= 0 && par1 <= 2) {
@@ -114,7 +114,7 @@ public class ContainerEnrichedTable extends Container
             super.updateProgressBar(par1, par2);
         }
     }
-    
+
     public void onCraftMatrixChanged(final IInventory par1IInventory) {
         if (par1IInventory == this.tableInventory) {
             final ItemStack itemstack = par1IInventory.getStackInSlot(0);
@@ -150,7 +150,7 @@ public class ContainerEnrichedTable extends Container
         }
         this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldPointer));
     }
-    
+
     public boolean enchantItem(final EntityPlayer par1EntityPlayer, final int par2) {
         final ItemStack itemstack = this.tableInventory.getStackInSlot(0);
         if (this.enchantLevels[par2] > 0 && itemstack != null && (par1EntityPlayer.experienceLevel >= this.enchantLevels[par2] || par1EntityPlayer.capabilities.isCreativeMode)) {
@@ -164,7 +164,7 @@ public class ContainerEnrichedTable extends Container
                     }
                     final int j = (flag && list.size() > 1) ? this.rand.nextInt(list.size()) : -1;
                     for (int k = 0; k < list.size(); ++k) {
-                        final EnchantmentData enchantmentdata = list.get(k);
+                        final EnchantmentData enchantmentdata = (EnchantmentData) list.get(k);
                         if (!flag || k != j) {
                             if (flag) {
                                 Items.enchanted_book.addEnchantment(itemstack, enchantmentdata);
@@ -181,7 +181,7 @@ public class ContainerEnrichedTable extends Container
         }
         return false;
     }
-    
+
     public void onContainerClosed(final EntityPlayer par1EntityPlayer) {
         super.onContainerClosed(par1EntityPlayer);
         if (!this.worldPointer.isRemote) {
@@ -197,14 +197,14 @@ public class ContainerEnrichedTable extends Container
             }
         }
     }
-    
+
     public boolean canInteractWith(final EntityPlayer par1EntityPlayer) {
         return this.worldPointer.getBlock(this.posX, this.posY, this.posZ) == EssenceBlocks.enrichedEnchantmentTable && par1EntityPlayer.getDistanceSq(this.posX + 0.5, this.posY + 0.5, this.posZ + 0.5) <= 64.0;
     }
-    
+
     public ItemStack transferStackInSlot(final EntityPlayer par1EntityPlayer, final int par2) {
         ItemStack itemstack = null;
-        final Slot slot = this.inventorySlots.get(par2);
+        final Slot slot = (Slot) this.inventorySlots.get(par2);
         if (slot != null && slot.getHasStack()) {
             final ItemStack itemstack2 = slot.getStack();
             itemstack = itemstack2.copy();

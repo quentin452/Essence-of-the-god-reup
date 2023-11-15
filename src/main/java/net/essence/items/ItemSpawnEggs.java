@@ -18,29 +18,29 @@ public class ItemSpawnEggs extends Item
 {
     @SideOnly(Side.CLIENT)
     private IIcon theIcon;
-    
+
     public ItemSpawnEggs() {
         this.setHasSubtypes(true);
         GameRegistry.registerItem((Item)this, "essenceSpawners");
         this.setUnlocalizedName("essenceSpawner");
         this.setCreativeTab((CreativeTabs)EssenceTabs.spawners);
     }
-    
+
     public String getItemStackDisplayName(final ItemStack i) {
-        String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
+        String s = (StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
         final String s2 = EssenceEntityList.getStringFromID(i.getItemDamage());
         if (s2 != null) {
             s = s + " " + StatCollector.translateToLocal("entity." + s2 + ".name");
         }
         return s;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(final ItemStack i, final int j) {
-        final EssenceEntityList.EntityEggInfo entityegginfo = EssenceEntityList.entityEggs.get(i.getItemDamage());
+        final EssenceEntityList.EntityEggInfo entityegginfo = (EssenceEntityList.EntityEggInfo) EssenceEntityList.entityEggs.get(i.getItemDamage());
         return (entityegginfo != null) ? ((j == 0) ? entityegginfo.primaryColor : entityegginfo.secondaryColor) : 16777215;
     }
-    
+
     public boolean onItemUse(final ItemStack i, final EntityPlayer p, final World w, int x, int y, int z, final int s, final float f, final float f1, final float f2) {
         if (w.isRemote) {
             return true;
@@ -64,7 +64,7 @@ public class ItemSpawnEggs extends Item
         }
         return true;
     }
-    
+
     public ItemStack onItemRightClick(final ItemStack stack, final World w, final EntityPlayer p) {
         if (w.isRemote) {
             return stack;
@@ -97,7 +97,7 @@ public class ItemSpawnEggs extends Item
         }
         return stack;
     }
-    
+
     public static Entity spawnCreature(final World w, final int id, final double x, final double y, final double z) {
         if (!EssenceEntityList.entityEggs.containsKey(id)) {
             return null;
@@ -105,36 +105,39 @@ public class ItemSpawnEggs extends Item
         Entity entity = null;
         for (int j = 0; j < 1; ++j) {
             entity = EssenceEntityList.createEntityByID(id, w);
-            if (entity != null && entity instanceof EntityLivingBase) {
+            if (entity instanceof EntityLivingBase) {
                 final EntityLiving entityliving = (EntityLiving)entity;
                 entity.setLocationAndAngles(x, y, z, MathHelper.wrapAngleTo180_float(w.rand.nextFloat() * 360.0f), 0.0f);
                 entityliving.rotationYawHead = entityliving.rotationYaw;
                 entityliving.renderYawOffset = entityliving.rotationYaw;
-                entityliving.onSpawnWithEgg((IEntityLivingData)null);
+                entityliving.onSpawnWithEgg(null);
                 w.spawnEntityInWorld(entity);
                 entityliving.playLivingSound();
             }
         }
         return entity;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public boolean requiresMultipleRenderPasses() {
         return true;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public IIcon getIconFromDamageForRenderPass(final int i, final int j) {
         return (j > 0) ? this.theIcon : super.getIconFromDamageForRenderPass(i, j);
     }
-    
+
     @SideOnly(Side.CLIENT)
     public void getSubItems(final Item i, final CreativeTabs c, final List l) {
-        for (final EssenceEntityList.EntityEggInfo entityegginfo : EssenceEntityList.entityEggs.values()) {
-            l.add(new ItemStack(i, 1, entityegginfo.entityID));
+        for (final Object obj : EssenceEntityList.entityEggs.values()) {
+            if (obj instanceof EssenceEntityList.EntityEggInfo) {
+                EssenceEntityList.EntityEggInfo entityegginfo = (EssenceEntityList.EntityEggInfo) obj;
+                l.add(new ItemStack(i, 1, entityegginfo.entityID));
+            }
         }
     }
-    
+
     @SideOnly(Side.CLIENT)
     public void registerIcons(final IIconRegister i) {
         this.itemIcon = i.registerIcon("spawn_egg");

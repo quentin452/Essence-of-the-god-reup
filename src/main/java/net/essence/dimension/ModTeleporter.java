@@ -16,7 +16,7 @@ public class ModTeleporter extends Teleporter
     protected int dimensionID;
     protected Block portal;
     protected Block frameBlock;
-    
+
     public ModTeleporter(final WorldServer worldServer, final int dimensionID, final Block portal, final Block frameBlock) {
         super(worldServer);
         this.destinationCoordinateCache = new LongHashMap();
@@ -27,7 +27,7 @@ public class ModTeleporter extends Teleporter
         this.frameBlock = frameBlock;
         this.random = new Random(worldServer.getSeed());
     }
-    
+
     public void placeInPortal(final Entity entity, final double x, final double y, final double z, final float par8) {
         if (this.worldServerInstance.provider.dimensionId == this.dimensionID) {
             if (!this.placeInExistingPortal(entity, x, y, z, par8)) {
@@ -59,7 +59,7 @@ public class ModTeleporter extends Teleporter
             entity.motionX = motionX;
         }
     }
-    
+
     public boolean placeInExistingPortal(final Entity entity, final double x, final double y, final double z, final float rotation) {
         final short short1 = 128;
         double d3 = -1.0;
@@ -104,7 +104,7 @@ public class ModTeleporter extends Teleporter
         }
         if (d3 >= 0.0) {
             if (flag) {
-                this.destinationCoordinateCache.add(j2, (Object)new Teleporter.PortalPosition((Teleporter)this, i, j, k, this.worldServerInstance.getTotalWorldTime()));
+                this.destinationCoordinateCache.add(j2, new PortalPosition(i, j, k, this.worldServerInstance.getTotalWorldTime()));
                 this.destinationCoordinateKeys.add(j2);
             }
             double d8 = i + 0.5;
@@ -196,7 +196,7 @@ public class ModTeleporter extends Teleporter
         }
         return false;
     }
-    
+
     public boolean makePortal(final Entity entity) {
         final byte b0 = 16;
         double d0 = -1.0;

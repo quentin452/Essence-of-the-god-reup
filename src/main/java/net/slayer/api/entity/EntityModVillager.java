@@ -27,7 +27,7 @@ public abstract class EntityModVillager extends EntityVillager implements INpc, 
     private int wealth;
     private String buyersName;
     private float buying;
-    
+
     public EntityModVillager(final World var1) {
         super(var1);
         this.setSize(1.0f, 2.0f);
@@ -44,33 +44,33 @@ public abstract class EntityModVillager extends EntityVillager implements INpc, 
         this.tasks.addTask(5, (EntityAIBase)new EntityAIWatchClosest2((EntityLiving)this, (Class)EntityPlayer.class, 3.0f, 1.0f));
         this.tasks.addTask(5, (EntityAIBase)new EntityAIWander((EntityCreature)this, 1.0));
     }
-    
+
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(100.0);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23000000417232513);
     }
-    
+
     public boolean isAIEnabled() {
         return true;
     }
-    
+
     protected boolean canDespawn() {
         return false;
     }
-    
+
     protected String getLivingSound() {
         return null;
     }
-    
+
     protected String getDeathSound() {
         return null;
     }
-    
+
     protected String getHurtSound() {
         return null;
     }
-    
+
     protected void updateAITick() {
         if (this.randomTickDivider-- <= 0) {
             this.randomTickDivider = 70 + this.rand.nextInt(50);
@@ -87,7 +87,7 @@ public abstract class EntityModVillager extends EntityVillager implements INpc, 
                 final Iterator iterator = this.buyingList.iterator();
                 if (this.needsInitilization) {
                     while (iterator.hasNext()) {
-                        final MerchantRecipe merchantrecipe = iterator.next();
+                        final MerchantRecipe merchantrecipe = (MerchantRecipe) iterator.next();
                         if (merchantrecipe.isRecipeDisabled()) {
                             merchantrecipe.func_82783_a(this.rand.nextInt(6) + this.rand.nextInt(6) + 2);
                         }
@@ -103,7 +103,7 @@ public abstract class EntityModVillager extends EntityVillager implements INpc, 
         }
         super.updateAITick();
     }
-    
+
     public boolean interact(final EntityPlayer var1) {
         if (!this.worldObj.isRemote) {
             this.abstractInteract(var1);
@@ -112,13 +112,13 @@ public abstract class EntityModVillager extends EntityVillager implements INpc, 
         }
         return super.interact(var1);
     }
-    
+
     public abstract void abstractInteract(final EntityPlayer p0);
-    
+
     public abstract int guiID();
-    
+
     public abstract void addRecipies(final MerchantRecipeList p0);
-    
+
     public void writeEntityToNBT(final NBTTagCompound var1) {
         super.writeEntityToNBT(var1);
         var1.setInteger("Profession", this.getProfession());
@@ -127,7 +127,7 @@ public abstract class EntityModVillager extends EntityVillager implements INpc, 
             var1.setTag("Offers", (NBTBase)this.buyingList.getRecipiesAsTags());
         }
     }
-    
+
     public void readEntityFromNBT(final NBTTagCompound var1) {
         super.readEntityFromNBT(var1);
         this.setProfession(var1.getInteger("Profession"));
@@ -137,7 +137,7 @@ public abstract class EntityModVillager extends EntityVillager implements INpc, 
             this.buyingList = new MerchantRecipeList(var2);
         }
     }
-    
+
     public void useRecipe(final MerchantRecipe var1) {
         var1.incrementToolUses();
         if (var1.hasSameIDsAs((MerchantRecipe)this.buyingList.get(this.buyingList.size() - 1))) {
@@ -154,17 +154,17 @@ public abstract class EntityModVillager extends EntityVillager implements INpc, 
             this.wealth += var1.getItemToBuy().stackSize;
         }
     }
-    
+
     public void func_110297_a_(final ItemStack par1ItemStack) {
     }
-    
+
     public MerchantRecipeList getRecipes(final EntityPlayer var1) {
         if (this.buyingList == null) {
             this.addDefaultEquipmentAndRecipies(30);
         }
         return this.buyingList;
     }
-    
+
     private void addDefaultEquipmentAndRecipies(final int par1) {
         if (this.buyingList != null) {
             this.buying = MathHelper.sqrt_float((float)this.buyingList.size()) * 0.2f;

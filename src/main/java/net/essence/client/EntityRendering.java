@@ -1,5 +1,6 @@
 package net.essence.client;
 
+import net.essence.client.render.mob.RenderFish;
 import net.essence.util.*;
 import net.minecraft.client.renderer.entity.*;
 import net.essence.entity.projectile.*;
@@ -31,7 +32,7 @@ public class EntityRendering
 {
     private static Textures tex;
     private static MobStats stat;
-    
+
     public static void init() {
         final Class<EntityBasicProjectile> clazz = EntityBasicProjectile.class;
         final Textures tex = EntityRendering.tex;

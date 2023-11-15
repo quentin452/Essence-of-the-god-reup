@@ -1,5 +1,6 @@
 package net.essence.dimension;
 
+import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.*;
 import net.essence.util.*;
@@ -24,27 +25,27 @@ public class DimensionHelper
     public static BiomeGenBase depths;
     public static BiomeGenBase boiling;
     public static BiomeGenBase frozen;
-    
+
     public static void init() {
         addDimension(Config.euca, WorldProviderEuca.class, Config.keepLoadingEuca);
         addDimension(Config.depths, (Class<? extends WorldProvider>)WorldProviderDepths.class, Config.keepLoadingDepths);
         addDimension(Config.boil, (Class<? extends WorldProvider>)WorldProviderBoiling.class, Config.keepLoadingBoil);
         addDimension(Config.frozen, WorldProviderFrozenLands.class, Config.keepLoadingFrozen);
     }
-    
+
     private static void addDimension(final int id, final Class<? extends WorldProvider> w, final boolean keeploading) {
         LogHelper.info("Registering dimension ID: " + id);
         DimensionManager.registerProviderType(id, (Class)w, keeploading);
         DimensionManager.registerDimension(id, id);
     }
-    
+
     public static void addSpawns() {
         addEucaSpawns();
         addBoilSpawns();
         addDepthsSpawns();
         addVanillaSpawns();
     }
-    
+
     private static void addEucaSpawns() {
         final int amount = 3;
         EntityRegistry.addSpawn((Class)EntityEucaHopper.class, amount, 1, 1, EnumCreatureType.monster, new BiomeGenBase[] { DimensionHelper.euca });
@@ -53,7 +54,7 @@ public class DimensionHelper
         EntityRegistry.addSpawn((Class)EntityPsyollom.class, amount, 1, 1, EnumCreatureType.monster, new BiomeGenBase[] { DimensionHelper.euca });
         EntityRegistry.addSpawn((Class)EntityEucaCharger.class, amount, 1, 1, EnumCreatureType.monster, new BiomeGenBase[] { DimensionHelper.euca });
     }
-    
+
     private static void addBoilSpawns() {
         final int amount = 3;
         EntityRegistry.addSpawn((Class)EntityMagmaGiant.class, amount, 1, 1, EnumCreatureType.monster, new BiomeGenBase[] { DimensionHelper.boiling });
@@ -67,7 +68,7 @@ public class DimensionHelper
         EntityRegistry.addSpawn((Class)EntityAshHoarder.class, amount, 1, 1, EnumCreatureType.monster, new BiomeGenBase[] { DimensionHelper.boiling });
         EntityRegistry.addSpawn((Class)EntityBurntMiner.class, amount, 1, 1, EnumCreatureType.monster, new BiomeGenBase[] { DimensionHelper.boiling });
     }
-    
+
     private static void addDepthsSpawns() {
         final int amount = 3;
         EntityRegistry.addSpawn((Class)EntityDarknessCrawler.class, amount, 1, 1, EnumCreatureType.monster, new BiomeGenBase[] { DimensionHelper.depths });
@@ -75,7 +76,7 @@ public class DimensionHelper
         EntityRegistry.addSpawn((Class)EntitySpikedBeast.class, amount, 1, 1, EnumCreatureType.monster, new BiomeGenBase[] { DimensionHelper.depths });
         EntityRegistry.addSpawn((Class)EntityDepthsHunter.class, amount, 1, 1, EnumCreatureType.monster, new BiomeGenBase[] { DimensionHelper.depths });
     }
-    
+
     private static void addVanillaSpawns() {
         final int amount = 3;
         EntityRegistry.addSpawn((Class)EntityBigHongo.class, amount, 1, 1, EnumCreatureType.monster, BiomeDictionary.getBiomesForType(BiomeDictionary.Type.PLAINS));
@@ -144,7 +145,7 @@ public class DimensionHelper
         EntityRegistry.addSpawn((Class)EntityFish.class, amount, 2, 5, EnumCreatureType.waterCreature, BiomeDictionary.getBiomesForType(BiomeDictionary.Type.WATER));
         EntityRegistry.addSpawn((Class)EntityFish.class, amount, 2, 5, EnumCreatureType.waterCreature, BiomeDictionary.getBiomesForType(BiomeDictionary.Type.WET));
     }
-    
+
     static {
         boilHeight = new BiomeGenBase.Height(0.0f, 0.9f);
         frozenHeight = new BiomeGenBase.Height(-1.0f, 0.0f);

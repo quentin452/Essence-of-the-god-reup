@@ -20,12 +20,12 @@ public class ClientProxy extends CommonProxy
         EntityRendering.init();
         SlayerAPI.addEventBus(new UpdateCheckerEvent());
     }
-    
+
     @Override
     public void registerSounds() {
         FMLCommonHandler.instance().bus().register((Object)new MusicEvent());
     }
-    
+
     @Override
     public void clientInit(final FMLInitializationEvent event) {
         SlayerAPI.addForgeEventBus(new BossTickHandler());
@@ -33,17 +33,17 @@ public class ClientProxy extends CommonProxy
         SlayerAPI.addForgeEventBus(new PlayerStats());
         SlayerAPI.addEventBus(new PlayerStats());
     }
-    
+
     @Override
     public void spawnParticle(final EnumParticlesClasses particle, final World worldObj, final double posX, final double posY, final double posZ, final boolean b) {
         if (!worldObj.isRemote) {
             try {
                 EntityFX fx = null;
                 if (b) {
-                    fx = particle.getParticle().getConstructor(World.class, Double.TYPE, Double.TYPE, Double.TYPE).newInstance(worldObj, posX, posY, posZ);
+                    fx = (EntityFX) particle.getParticle().getConstructor(World.class, Double.TYPE, Double.TYPE, Double.TYPE).newInstance(worldObj, posX, posY, posZ);
                 }
                 else {
-                    fx = particle.getParticle().getConstructor(World.class, Double.TYPE, Double.TYPE, Double.TYPE, Double.TYPE, Double.TYPE, Double.TYPE).newInstance(worldObj, posX, posY, posZ, 0.0, 0.0, 0.0);
+                    fx = (EntityFX) particle.getParticle().getConstructor(World.class, Double.TYPE, Double.TYPE, Double.TYPE, Double.TYPE, Double.TYPE, Double.TYPE).newInstance(worldObj, posX, posY, posZ, 0.0, 0.0, 0.0);
                 }
                 Minecraft.getMinecraft().effectRenderer.addEffect(fx);
             }

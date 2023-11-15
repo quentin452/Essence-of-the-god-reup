@@ -1,6 +1,7 @@
 package net.essence.proxy;
 
 import net.essence.client.render.*;
+import net.essence.util.EntityRegistry;
 import net.minecraft.world.*;
 import net.essence.util.*;
 import net.essence.util.recipes.*;
@@ -21,16 +22,16 @@ public class CommonProxy
 {
     public void registerClient() {
     }
-    
+
     public void clientInit(final FMLInitializationEvent event) {
     }
-    
+
     public void registerSounds() {
     }
-    
+
     public void spawnParticle(final EnumParticlesClasses particle, final World worldObj, final double x, final double y, final double z, final boolean b) {
     }
-    
+
     public static void preInit(final FMLPreInitializationEvent event) {
         Config.init(event);
         EntityRegistry.init();
@@ -50,20 +51,20 @@ public class CommonProxy
         GameRegistry.registerTileEntity((Class)TileEntityIncubator.class, "incubator");
         GameRegistry.registerTileEntity((Class)TileEntityBackpack.class, "backpack");
     }
-    
+
     public static void init(final FMLInitializationEvent event) {
         GameRegistry.registerWorldGenerator((IWorldGenerator)new WorldGenEssence(), 10);
         SlayerAPI.addForgeEventBus(new PlayerEvent());
         SlayerAPI.addEventBus(new PlayerEvent());
     }
-    
+
     public static void postInit(final FMLPostInitializationEvent event) {
     }
-    
+
     public static void serverStarting(final FMLServerStartingEvent event) {
         SlayerAPI.registerCommand((ICommand)new EssenceCommands());
     }
-    
+
     private static void addOreDictionary() {
         OreDictionary.registerOre("oreAshual", EssenceBlocks.ashual);
         OreDictionary.registerOre("oreCelestium", EssenceBlocks.celestiumOre);

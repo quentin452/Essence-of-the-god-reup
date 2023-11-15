@@ -13,7 +13,7 @@ public class EssenceEntityList
     private static Map classToIDMapping;
     private static Map stringToIDMapping;
     public static HashMap entityEggs;
-    
+
     public static void addMapping(final Class clazz, final String name, final int id) {
         if (EssenceEntityList.stringToClassMapping.containsKey(name)) {
             throw new IllegalArgumentException("ID is already registered: " + name);
@@ -27,31 +27,31 @@ public class EssenceEntityList
         EssenceEntityList.classToIDMapping.put(clazz, id);
         EssenceEntityList.stringToIDMapping.put(name, id);
     }
-    
+
     public static void addMapping(final Class clazz, final String name, final int id, final int primary, final int secondary) {
         addMapping(clazz, name, id);
         EssenceEntityList.entityEggs.put(id, new EntityEggInfo(id, primary, secondary));
     }
-    
+
     public static String getStringFromID(final int id) {
         final Class oclass = getClassFromID(id);
-        return (oclass != null) ? EssenceEntityList.classToStringMapping.get(oclass) : null;
+        return (oclass != null) ? (String) EssenceEntityList.classToStringMapping.get(oclass) : null;
     }
-    
+
     public static Class getClassFromID(final int id) {
-        return EssenceEntityList.IDtoClassMapping.get(id);
+        return (Class) EssenceEntityList.IDtoClassMapping.get(id);
     }
-    
+
     public static int getIDFromClass(final Class clazz) {
-        return EssenceEntityList.classToIDMapping.get(clazz);
+        return (int) EssenceEntityList.classToIDMapping.get(clazz);
     }
-    
+
     public static Entity createEntityByID(final int id, final World world) {
         Entity entity = null;
         try {
             final Class oclass = getClassFromID(id);
             if (oclass != null) {
-                entity = oclass.getConstructor(World.class).newInstance(world);
+                entity = (Entity) oclass.getConstructor(World.class).newInstance(world);
             }
         }
         catch (Exception exception) {
@@ -62,7 +62,7 @@ public class EssenceEntityList
         }
         return entity;
     }
-    
+
     static {
         EssenceEntityList.stringToClassMapping = new HashMap();
         EssenceEntityList.classToStringMapping = new HashMap();
@@ -71,13 +71,13 @@ public class EssenceEntityList
         EssenceEntityList.stringToIDMapping = new HashMap();
         EssenceEntityList.entityEggs = new LinkedHashMap();
     }
-    
+
     public static class EntityEggInfo
     {
         public final int entityID;
         public final int primaryColor;
         public final int secondaryColor;
-        
+
         public EntityEggInfo(final int id, final int primary, final int secondary) {
             this.entityID = id;
             this.primaryColor = primary;

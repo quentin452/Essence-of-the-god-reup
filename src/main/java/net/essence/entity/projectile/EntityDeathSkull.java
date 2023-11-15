@@ -11,24 +11,24 @@ public class EntityDeathSkull extends EntityWitherSkull
     public EntityDeathSkull(final World par1World) {
         super(par1World);
     }
-    
+
     public EntityDeathSkull(final World par1World, final EntityLivingBase par2EntityLivingBase, final double vX, final double vY, final double vZ) {
         super(par1World, par2EntityLivingBase, vX, vY, vZ);
     }
-    
+
     public EntityDeathSkull(final World par1World, final EntityLivingBase par2EntityLivingBase, final double posX, final double posY, final double posZ, final double vX, final double vY, final double vZ) {
         super(par1World, par2EntityLivingBase, vX, vY, vZ);
         this.setPosition(posX, posY, posZ);
-        final Double d3 = (Double)MathHelper.sqrt_double(vX * vX + vY * vY + vZ * vZ);
+        final Double d3 = (double) MathHelper.sqrt_double(vX * vX + vY * vY + vZ * vZ);
         this.accelerationX = vX / d3 * 0.1;
         this.accelerationY = vY / d3 * 0.1;
         this.accelerationZ = vZ / d3 * 0.1;
     }
-    
+
     public EntityDeathSkull(final World par1World, final double par2, final double par4, final double par6, final double par8, final double par10, final double par12) {
         super(par1World, par2, par4, par6, par8, par10, par12);
     }
-    
+
     protected void onImpact(final MovingObjectPosition par1MovingObjectPosition) {
         if (!this.worldObj.isRemote) {
             if (par1MovingObjectPosition.entityHit != null) {

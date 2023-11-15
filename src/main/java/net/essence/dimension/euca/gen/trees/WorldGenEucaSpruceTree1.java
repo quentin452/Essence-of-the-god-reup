@@ -12,7 +12,7 @@ import net.minecraftforge.common.*;
 public class WorldGenEucaSpruceTree1 extends WorldGenAbstractTree
 {
     protected Block leaves;
-    
+
     public WorldGenEucaSpruceTree1() {
         super(false);
         this.leaves = null;
@@ -32,7 +32,7 @@ public class WorldGenEucaSpruceTree1 extends WorldGenAbstractTree
             }
         }
     }
-    
+
     public boolean generate(final World p_76484_1_, final Random p_76484_2_, final int p_76484_3_, final int p_76484_4_, final int p_76484_5_) {
         final int l = p_76484_2_.nextInt(4) + 6;
         final int i1 = 1 + p_76484_2_.nextInt(2);
@@ -97,10 +97,9 @@ public class WorldGenEucaSpruceTree1 extends WorldGenAbstractTree
                     ++l3;
                 }
             }
-            int i3;
-            for (i3 = p_76484_2_.nextInt(3), int k2 = 0; k2 < l - i3; ++k2) {
+            for (int i3 = p_76484_2_.nextInt(3), k2 = 0; k2 < l - i3; ++k2) {
                 final Block block3 = p_76484_1_.getBlock(p_76484_3_, p_76484_4_ + k2, p_76484_5_);
-                if (block3.isAir((IBlockAccess)p_76484_1_, p_76484_3_, p_76484_4_ + k2, p_76484_5_) || block3.isLeaves((IBlockAccess)p_76484_1_, p_76484_3_, p_76484_4_ + k2, p_76484_5_)) {
+                if (block3.isAir(p_76484_1_, p_76484_3_, p_76484_4_ + k2, p_76484_5_) || block3.isLeaves(p_76484_1_, p_76484_3_, p_76484_4_ + k2, p_76484_5_)) {
                     this.setBlockAndNotifyAdequately(p_76484_1_, p_76484_3_, p_76484_4_ + k2, p_76484_5_, EssenceBlocks.eucaLog, 1);
                 }
             }

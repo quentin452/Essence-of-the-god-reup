@@ -12,48 +12,48 @@ public class ContainerIncubator extends Container
     private int lastCookTime;
     private int lastBurnTime;
     private int lastItemBurnTime;
-    
+
     public ContainerIncubator(final InventoryPlayer player, final TileEntityIncubator furnace) {
         this.tileFurnace = furnace;
-        this.addSlotToContainer(new Slot((IInventory)furnace, 0, 56, 17));
-        this.addSlotToContainer(new Slot((IInventory)furnace, 1, 56, 53));
-        this.addSlotToContainer((Slot)new SlotFurnace(player.player, (IInventory)furnace, 2, 116, 35));
+        this.addSlotToContainer(new Slot(furnace, 0, 56, 17));
+        this.addSlotToContainer(new Slot(furnace, 1, 56, 53));
+        this.addSlotToContainer((Slot)new SlotFurnace(player.player, furnace, 2, 116, 35));
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new Slot((IInventory)player, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.addSlotToContainer(new Slot(player, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
         for (int i = 0; i < 9; ++i) {
             this.addSlotToContainer(new Slot((IInventory)player, i, 8 + i * 18, 142));
         }
     }
-    
+
     public void addCraftingToCrafters(final ICrafting par1ICrafting) {
         super.addCraftingToCrafters(par1ICrafting);
         par1ICrafting.sendProgressBarUpdate((Container)this, 0, this.tileFurnace.furnaceCookTime);
         par1ICrafting.sendProgressBarUpdate((Container)this, 1, this.tileFurnace.furnaceBurnTime);
         par1ICrafting.sendProgressBarUpdate((Container)this, 2, this.tileFurnace.currentItemBurnTime);
     }
-    
+
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
-        for (int i = 0; i < this.crafters.size(); ++i) {
-            final ICrafting icrafting = this.crafters.get(i);
+        for (Object crafter : this.crafters) {
+            final ICrafting icrafting = (ICrafting) crafter;
             if (this.lastCookTime != this.tileFurnace.furnaceCookTime) {
-                icrafting.sendProgressBarUpdate((Container)this, 0, this.tileFurnace.furnaceCookTime);
+                icrafting.sendProgressBarUpdate((Container) this, 0, this.tileFurnace.furnaceCookTime);
             }
             if (this.lastBurnTime != this.tileFurnace.furnaceBurnTime) {
-                icrafting.sendProgressBarUpdate((Container)this, 1, this.tileFurnace.furnaceBurnTime);
+                icrafting.sendProgressBarUpdate((Container) this, 1, this.tileFurnace.furnaceBurnTime);
             }
             if (this.lastItemBurnTime != this.tileFurnace.currentItemBurnTime) {
-                icrafting.sendProgressBarUpdate((Container)this, 2, this.tileFurnace.currentItemBurnTime);
+                icrafting.sendProgressBarUpdate((Container) this, 2, this.tileFurnace.currentItemBurnTime);
             }
         }
         this.lastCookTime = this.tileFurnace.furnaceCookTime;
         this.lastBurnTime = this.tileFurnace.furnaceBurnTime;
         this.lastItemBurnTime = this.tileFurnace.currentItemBurnTime;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public void updateProgressBar(final int par1, final int par2) {
         if (par1 == 0) {
@@ -66,14 +66,14 @@ public class ContainerIncubator extends Container
             this.tileFurnace.currentItemBurnTime = par2;
         }
     }
-    
+
     public boolean canInteractWith(final EntityPlayer par1EntityPlayer) {
         return this.tileFurnace.isUseableByPlayer(par1EntityPlayer);
     }
-    
+
     public ItemStack transferStackInSlot(final EntityPlayer par1EntityPlayer, final int par2) {
         ItemStack itemstack = null;
-        final Slot slot = this.inventorySlots.get(par2);
+        final Slot slot = (Slot) this.inventorySlots.get(par2);
         if (slot != null && slot.getHasStack()) {
             final ItemStack itemstack2 = slot.getStack();
             itemstack = itemstack2.copy();
@@ -83,21 +83,20 @@ public class ContainerIncubator extends Container
                 }
             }
             else {
-                if (this.inventorySlots.get(0).getHasStack() || !this.inventorySlots.get(0).isItemValid(itemstack2)) {
+                Slot slot0 = (Slot) this.inventorySlots.get(0);
+                if (slot0.getHasStack() || !slot0.isItemValid(itemstack2)) {
                     return null;
                 }
                 if (itemstack2.hasTagCompound() && itemstack2.stackSize == 1) {
-                    this.inventorySlots.get(0).putStack(itemstack2.copy());
+                    slot0.putStack(itemstack2.copy());
                     itemstack2.stackSize = 0;
-                }
-                else if (itemstack2.stackSize >= 1) {
-                    this.inventorySlots.get(0).putStack(new ItemStack(itemstack2.getItem(), 1, itemstack2.getItemDamage()));
-                    final ItemStack itemStack = itemstack2;
-                    --itemStack.stackSize;
+                } else if (itemstack2.stackSize >= 1) {
+                    slot0.putStack(new ItemStack(itemstack2.getItem(), 1, itemstack2.getItemDamage()));
+                    --itemstack2.stackSize;
                 }
             }
             if (itemstack2.stackSize == 0) {
-                slot.putStack((ItemStack)null);
+                slot.putStack(null);
             }
             else {
                 slot.onSlotChanged();
