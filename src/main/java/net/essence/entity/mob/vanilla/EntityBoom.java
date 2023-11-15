@@ -156,7 +156,7 @@ public class EntityBoom extends EntityModMob
     }
 
     public int getBoomBoomState() {
-        return this.dataWatcher.getWatchableObjectByte(16);
+        return this.dataWatcher.getWatchableObjectInt(16);
     }
 
     public void setBoomBoomState(final int p_70829_1_) {
