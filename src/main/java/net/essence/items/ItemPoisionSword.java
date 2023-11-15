@@ -19,16 +19,23 @@ public class ItemPoisionSword extends ItemModSword
     public ItemPoisionSword(final String name, final EssenceToolMaterial toolMaterial) {
         super(name, toolMaterial);
     }
-    
+
     public boolean hitEntity(final ItemStack par1ItemStack, final EntityLivingBase hit, final EntityLivingBase player) {
         hit.addPotionEffect(new PotionEffect(Potion.poison.id, 100, 2));
-        final Random r = new Random();
-        for (int i = 0; i < 50; ++i) {
-            FMLClientHandler.instance().getClient().effectRenderer.addEffect((EntityFX)new EntityPoisionFX((World)Minecraft.getMinecraft().theWorld, hit.posX + r.nextFloat() - 0.5, hit.posY + 0.5 + r.nextFloat(), hit.posZ + r.nextFloat() - 0.5, 0.0, 0.0, 0.0));
+        EffectRender(par1ItemStack,hit,player);
+        return super.hitEntity(par1ItemStack, hit, player);
+    }
+    @SideOnly(Side.CLIENT)
+    public boolean EffectRender(final ItemStack par1ItemStack, final EntityLivingBase hit, final EntityLivingBase player) {
+        if (hit.worldObj.isRemote) {
+            final Random r = new Random();
+            for (int i = 0; i < 50; ++i) {
+                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityPoisionFX(Minecraft.getMinecraft().theWorld, hit.posX + r.nextFloat() - 0.5, hit.posY + 0.5 + r.nextFloat(), hit.posZ + r.nextFloat() - 0.5, 0.0, 0.0, 0.0));
+            }
         }
         return super.hitEntity(par1ItemStack, hit, player);
     }
-    
+
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(final ItemStack item, final EntityPlayer player, final List infoList, final boolean par4) {
