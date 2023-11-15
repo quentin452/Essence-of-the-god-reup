@@ -20,7 +20,7 @@ public class EntityBoom extends EntityModMob
     private int lastActiveTime;
     private int timeSinceIgnited;
     private int explosionRadius;
-    
+
     public EntityBoom(final World par1World) {
         super(par1World);
         this.fuseTime = 40;
@@ -29,42 +29,42 @@ public class EntityBoom extends EntityModMob
         this.addAttackingAI();
         this.setSize(1.0f, 2.0f);
     }
-    
+
     @Override
     public double setMovementSpeed() {
         return 0.200000011920929;
     }
-    
+
     @Override
     public double setAttackDamage(final MobStats s) {
         return 0.0;
     }
-    
+
     @Override
     public double setMaxHealth(final MobStats s) {
         return MobStats.boomHealth;
     }
-    
+
     @Override
     public String setLivingSound() {
         return "mob.creeper.say";
     }
-    
+
     @Override
     public String setHurtSound() {
         return "mob.creeper.death";
     }
-    
+
     @Override
     public String setDeathSound() {
         return "mob.creeper.death";
     }
-    
+
     @Override
     public Item getItemDropped() {
         return null;
     }
-    
+
     @Override
     protected void dropFewItems(final boolean b, final int j) {
         for (int i = 0; i < 1 + this.rand.nextInt(1); ++i) {
@@ -72,15 +72,15 @@ public class EntityBoom extends EntityModMob
             this.dropItem(Items.gunpowder, 1);
         }
     }
-    
+
     public boolean isAIEnabled() {
         return true;
     }
-    
+
     public int getMaxSafePointTries() {
         return (this.getAttackTarget() == null) ? 3 : (3 + (int)(this.getHealth() - 1.0f));
     }
-    
+
     protected void fall(final float f) {
         super.fall(f);
         this.timeSinceIgnited += (int)(f * 1.5f);
@@ -88,14 +88,14 @@ public class EntityBoom extends EntityModMob
             this.timeSinceIgnited = this.fuseTime - 5;
         }
     }
-    
-    protected void entityInit() {
+
+    public void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(16, (Object)(-1));
-        this.dataWatcher.addObject(17, (Object)0);
-        this.dataWatcher.addObject(18, (Object)0);
+        this.dataWatcher.addObject(16, -1);
+        this.dataWatcher.addObject(17, 0);
+        this.dataWatcher.addObject(18, (byte)0);
     }
-    
+
     public void writeEntityToNBT(final NBTTagCompound p_70014_1_) {
         super.writeEntityToNBT(p_70014_1_);
         if (this.dataWatcher.getWatchableObjectByte(17) == 1) {
@@ -105,7 +105,7 @@ public class EntityBoom extends EntityModMob
         p_70014_1_.setByte("ExplosionRadius", (byte)this.explosionRadius);
         p_70014_1_.setBoolean("ignited", this.func_146078_ca());
     }
-    
+
     public void readEntityFromNBT(final NBTTagCompound p_70037_1_) {
         super.readEntityFromNBT(p_70037_1_);
         this.dataWatcher.updateObject(17, (Object)(byte)(p_70037_1_.getBoolean("powered") ? 1 : 0));
@@ -119,7 +119,7 @@ public class EntityBoom extends EntityModMob
             this.func_146079_cb();
         }
     }
-    
+
     public void onUpdate() {
         if (this.isEntityAlive()) {
             this.lastActiveTime = this.timeSinceIgnited;
@@ -141,33 +141,33 @@ public class EntityBoom extends EntityModMob
         }
         super.onUpdate();
     }
-    
+
     public boolean attackEntityAsMob(final Entity p_70652_1_) {
         return true;
     }
-    
+
     public boolean getPowered() {
         return this.dataWatcher.getWatchableObjectByte(17) == 1;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public float getFlashIntensity(final float p_70831_1_) {
         return (this.lastActiveTime + (this.timeSinceIgnited - this.lastActiveTime) * p_70831_1_) / (this.fuseTime - 2);
     }
-    
+
     public int getBoomBoomState() {
         return this.dataWatcher.getWatchableObjectByte(16);
     }
-    
+
     public void setBoomBoomState(final int p_70829_1_) {
         this.dataWatcher.updateObject(16, (Object)(byte)p_70829_1_);
     }
-    
+
     public void onStruckByLightning(final EntityLightningBolt p_70077_1_) {
         super.onStruckByLightning(p_70077_1_);
         this.dataWatcher.updateObject(17, (Object)1);
     }
-    
+
     protected boolean interact(final EntityPlayer p_70085_1_) {
         final ItemStack itemstack = p_70085_1_.inventory.getCurrentItem();
         if (itemstack != null && itemstack.getItem() == Items.flint_and_steel) {
@@ -181,7 +181,7 @@ public class EntityBoom extends EntityModMob
         }
         return super.interact(p_70085_1_);
     }
-    
+
     private void func_146077_cc() {
         if (!this.worldObj.isRemote) {
             final boolean flag = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
@@ -194,12 +194,12 @@ public class EntityBoom extends EntityModMob
             this.setDead();
         }
     }
-    
+
     public boolean func_146078_ca() {
         return this.dataWatcher.getWatchableObjectByte(18) != 0;
     }
-    
+
     public void func_146079_cb() {
-        this.dataWatcher.updateObject(18, (Object)1);
+        this.dataWatcher.updateObject(18, (byte)1);
     }
 }
