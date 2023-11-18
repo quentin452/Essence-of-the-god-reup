@@ -116,7 +116,7 @@ public class EssenceBlocks
     public static final Block eucaTallGrass;
     public static final Block eucaGreenFlower;
     public static final Block eucaBlueFlower;
-    
+
     static {
         hellstoneOre = new BlockModOre("hellstoneOre", 3.0f).setHarvestLevel(EnumToolType.DIAMOND_PICK);
         celestiumOre = new BlockModOre("celestiumOre", 2.0f).setHarvestLevel(EnumToolType.DIAMOND_PICK);
@@ -172,7 +172,7 @@ public class EssenceBlocks
         ashBlock = new BlockMod(EnumMaterialTypes.STONE, "ash", "ashBlock");
         fire = (Block)new BlockModFire("fire");
         boilingFire = (Block)new BlockBoilingFire("boilingFire");
-        mossyEssenceStone = new BlockMod("mossyEssenceStone", 2.0f);
+        mossyEssenceStone = new BlockMossyEssenceStone("mossyEssenceStone", 2.0f);
         dungeonBrick = (Block)new BlockDungeonBlock("dungeonBrick");
         dungeonCrackedBrick = (Block)new BlockDungeonBlock("dungeonCrackedBrick");
         dungeonChisledBrick = (Block)new BlockDungeonBlock("dungeonChiseledBrick");
