@@ -147,7 +147,7 @@ public class EntityBoom extends EntityModMob
     }
 
     public boolean getPowered() {
-        return this.dataWatcher.getWatchableObjectByte(17) == 1;
+        return this.dataWatcher.getWatchableObjectInt(17) == 1;
     }
 
     @SideOnly(Side.CLIENT)
