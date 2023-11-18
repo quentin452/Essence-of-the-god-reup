@@ -67,14 +67,4 @@ public class BlockMossyEssenceStone extends Block {
         this.setHardness(hardness);
         GameRegistry.registerBlock((Block)this, name);
     }
-
-    public int getRenderType() {
-        return (this == EssenceBlocks.mossyEssenceStone) ? 173 : 0;
-    }
-    public int getMixedBrightnessForBlock(final IBlockAccess par1iBlockAccess, final int par2, final int par3, final int par4) {
-        if (this == EssenceBlocks.mossyEssenceStone) {
-            return 900;
-        }
-        return super.getMixedBrightnessForBlock(par1iBlockAccess, par2, par3, par4);
-    }
 }
