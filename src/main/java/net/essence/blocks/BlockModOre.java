@@ -186,14 +186,6 @@ public class BlockModOre extends BlockMod
     }
 
     @Override
-    public int getMixedBrightnessForBlock(final IBlockAccess par1iBlockAccess, final int par2, final int par3, final int par4) {
-        if (this == EssenceBlocks.celestiumOre || this == EssenceBlocks.shadiumOre || this == EssenceBlocks.luniumOre || this == EssenceBlocks.flairiumOre || this == EssenceBlocks.celestiumBlock || this == EssenceBlocks.shadiumBlock || this == EssenceBlocks.luniumBlock || this == EssenceBlocks.flairiumBlock || this == EssenceBlocks.hellstoneBlock || this == EssenceBlocks.hellstoneOre || this == EssenceBlocks.sapphireOre) {
-            return 1000;
-        }
-        return super.getMixedBrightnessForBlock(par1iBlockAccess, par2, par3, par4);
-    }
-
-    @Override
     public Item getItemDropped(final int par1, final Random par2, final int par3) {
         if (this == EssenceBlocks.ashual) {
             return EssenceItems.ash;
@@ -202,10 +194,5 @@ public class BlockModOre extends BlockMod
             return EssenceItems.sapphire;
         }
         return Item.getItemFromBlock(this);
-    }
-
-    @Override
-    public int getRenderType() {
-        return (this == EssenceBlocks.celestiumOre || this == EssenceBlocks.shadiumOre || this == EssenceBlocks.luniumOre || this == EssenceBlocks.flairiumOre || this == EssenceBlocks.celestiumBlock || this == EssenceBlocks.shadiumBlock || this == EssenceBlocks.luniumBlock || this == EssenceBlocks.flairiumBlock || this == EssenceBlocks.hellstoneBlock || this == EssenceBlocks.hellstoneOre || this == EssenceBlocks.sapphireOre) ? 172 : 0;
     }
 }
