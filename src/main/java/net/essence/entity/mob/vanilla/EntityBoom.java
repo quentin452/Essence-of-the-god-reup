@@ -98,7 +98,7 @@ public class EntityBoom extends EntityModMob
 
     public void writeEntityToNBT(final NBTTagCompound p_70014_1_) {
         super.writeEntityToNBT(p_70014_1_);
-        if (this.dataWatcher.getWatchableObjectByte(17) == 1) {
+        if (this.dataWatcher.getWatchableObjectInt(17) == 1) {
             p_70014_1_.setBoolean("powered", true);
         }
         p_70014_1_.setShort("Fuse", (short)this.fuseTime);
