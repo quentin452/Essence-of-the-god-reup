@@ -93,7 +93,7 @@ public class EntityBoom extends EntityModMob
         super.entityInit();
         this.dataWatcher.addObject(16, -1);
         this.dataWatcher.addObject(17, 0);
-        this.dataWatcher.addObject(18, (byte)0);
+        this.dataWatcher.addObject(18, 0);
     }
 
     public void writeEntityToNBT(final NBTTagCompound p_70014_1_) {
@@ -102,18 +102,18 @@ public class EntityBoom extends EntityModMob
             p_70014_1_.setBoolean("powered", true);
         }
         p_70014_1_.setShort("Fuse", (short)this.fuseTime);
-        p_70014_1_.setByte("ExplosionRadius", (byte)this.explosionRadius);
+        p_70014_1_.setInteger("ExplosionRadius", this.explosionRadius);
         p_70014_1_.setBoolean("ignited", this.func_146078_ca());
     }
 
     public void readEntityFromNBT(final NBTTagCompound p_70037_1_) {
         super.readEntityFromNBT(p_70037_1_);
-        this.dataWatcher.updateObject(17, (Object)(byte)(p_70037_1_.getBoolean("powered") ? 1 : 0));
+        this.dataWatcher.updateObject(17, (p_70037_1_.getBoolean("powered") ? 1 : 0));
         if (p_70037_1_.hasKey("Fuse", 99)) {
             this.fuseTime = p_70037_1_.getShort("Fuse");
         }
         if (p_70037_1_.hasKey("ExplosionRadius", 99)) {
-            this.explosionRadius = p_70037_1_.getByte("ExplosionRadius");
+            this.explosionRadius = p_70037_1_.getInteger("ExplosionRadius");
         }
         if (p_70037_1_.getBoolean("ignited")) {
             this.func_146079_cb();
@@ -160,12 +160,12 @@ public class EntityBoom extends EntityModMob
     }
 
     public void setBoomBoomState(final int p_70829_1_) {
-        this.dataWatcher.updateObject(16, (Object)(byte)p_70829_1_);
+        this.dataWatcher.updateObject(16, p_70829_1_);
     }
 
     public void onStruckByLightning(final EntityLightningBolt p_70077_1_) {
         super.onStruckByLightning(p_70077_1_);
-        this.dataWatcher.updateObject(17, (Object)1);
+        this.dataWatcher.updateObject(17, 1);
     }
 
     protected boolean interact(final EntityPlayer p_70085_1_) {
@@ -196,10 +196,10 @@ public class EntityBoom extends EntityModMob
     }
 
     public boolean func_146078_ca() {
-        return this.dataWatcher.getWatchableObjectByte(18) != 0;
+        return this.dataWatcher.getWatchableObjectInt(18) != 0;
     }
 
     public void func_146079_cb() {
-        this.dataWatcher.updateObject(18, (byte)1);
+        this.dataWatcher.updateObject(18, 1);
     }
 }
