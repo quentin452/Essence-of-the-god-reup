@@ -20,7 +20,7 @@ import net.minecraft.enchantment.*;
 public class PlayerEvent
 {
     public static final String[] isImmuneToFire;
-    
+
     @SubscribeEvent
     public void onBlockHarvested(final BlockEvent.HarvestDropsEvent event) {
         final EntityPlayer p = event.harvester;
@@ -36,17 +36,7 @@ public class PlayerEvent
             }
         }
     }
-    
-    @SubscribeEvent
-    public void onDeath(final LivingDeathEvent event) {
-        if (event.entity instanceof EntityPlayer) {
-            final EntityPlayer player = (EntityPlayer)event.entity;
-            if (!player.worldObj.isRemote && Config.showDeathMessage) {
-                SlayerAPI.sendMessageToAll(player.getDisplayName() + " Died at X: " + (int)player.posX + ", Y: " + (int)player.posY + ", Z: " + (int)player.posZ, false);
-            }
-        }
-    }
-    
+
     @SubscribeEvent
     public void onTick(final TickEvent.PlayerTickEvent event) {
         final EntityPlayer player = event.player;
@@ -71,29 +61,29 @@ public class PlayerEvent
             }
         }
     }
-    
+
     public static int getItemEnchantment(final Enchantment en, final EntityLivingBase e) {
         if (en != null && e != null) {
             return EnchantmentHelper.getEnchantmentLevel(en.effectId, e.getHeldItem());
         }
         return 0;
     }
-    
+
     public static boolean hasItemEnchantment(final Enchantment en, final EntityLivingBase e) {
         return getItemEnchantment(en, e) > 0;
     }
-    
+
     public static int getArmorEnchantment(final Enchantment en, final EntityLivingBase e) {
         if (en != null && e != null) {
             return EnchantmentHelper.getMaxEnchantmentLevel(en.effectId, e.getLastActiveItems());
         }
         return 0;
     }
-    
+
     public static boolean hasArmorEnchantment(final Enchantment en, final EntityLivingBase e) {
         return getArmorEnchantment(en, e) > 0;
     }
-    
+
     @SubscribeEvent
     public void transferDims(final cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent e) {
         final String from = (e.fromDim == -1) ? " Nether " : ((e.fromDim == 0) ? " Overworld " : ((e.fromDim == 1) ? " The End " : ((e.fromDim == Config.boil) ? " Boiling Point " : ((e.fromDim == Config.depths) ? " The Depths " : ((e.fromDim == Config.euca) ? " Euca " : ((e.fromDim == Config.frozen) ? " Frozen Lands " : "\u00ef��rUnknown"))))));
@@ -103,7 +93,7 @@ public class PlayerEvent
             SlayerAPI.sendMessageToAll(e.player.getDisplayName() + " Has travelled from" + from + "to" + to, false);
         }
     }
-    
+
     static {
         isImmuneToFire = new String[] { "ag", "isImmuneToFire", "isImmuneToFire" };
     }
