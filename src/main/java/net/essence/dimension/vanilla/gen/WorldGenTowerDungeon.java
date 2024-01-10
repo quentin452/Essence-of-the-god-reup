@@ -1,5 +1,6 @@
 package net.essence.dimension.vanilla.gen;
 
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.*;
 import java.util.*;
@@ -12,6 +13,11 @@ import net.essence.*;
 public class WorldGenTowerDungeon extends WorldGenerator
 {
     public boolean generate(final World w, final Random r, final int x, final int y, final int z) {
+        Chunk chunk = w.getChunkFromBlockCoords(x, z);
+
+        if (!chunk.isChunkLoaded) {
+            return false;
+        }
         final int levels = 4;
         final int height = levels * 4;
         final ItemStack[] items = { new ItemStack(Items.apple), new ItemStack(Items.arrow), new ItemStack(Blocks.acacia_stairs) };
@@ -58,7 +64,7 @@ public class WorldGenTowerDungeon extends WorldGenerator
         this.addDifferentBlocks(w, x, y, z);
         return true;
     }
-    
+
     public void addDifferentBlocks(final World w, final int x, final int y, final int z) {
         final Random r = new Random();
         for (int x2 = 0; x2 < 15; ++x2) {
@@ -101,7 +107,7 @@ public class WorldGenTowerDungeon extends WorldGenerator
             }
         }
     }
-    
+
     public void addLevel(final World w, final int x, final int y, final int z, final int height, final int lor) {
         final Random r = new Random();
         WorldGenAPI.addRectangle(13, 8, 1, w, x + 1, y + height, z + 1, EssenceBlocks.dungeonBrick);
