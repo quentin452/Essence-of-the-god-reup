@@ -123,16 +123,22 @@ public class SlayerAPI
     }
 
     public static void sendMessageToAll(final String message, final boolean showMod) {
-        if (showMod) {
-            FMLClientHandler.instance().getClient().ingameGUI.getChatGUI().printChatMessage((IChatComponent)new ChatComponentTranslation("�3[�2Essence Of The Gods�3] �A" + message, new Object[0]));
-        }
-        else {
-            FMLClientHandler.instance().getClient().ingameGUI.getChatGUI().printChatMessage((IChatComponent)new ChatComponentTranslation("�A" + message, new Object[0]));
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+            if (showMod) {
+                FMLClientHandler.instance().getClient().ingameGUI.getChatGUI().printChatMessage(
+                    new ChatComponentTranslation("§3[§2Essence Of The Gods§3] §A" + message));
+            } else {
+                FMLClientHandler.instance().getClient().ingameGUI.getChatGUI().printChatMessage(
+                    new ChatComponentTranslation("§A" + message));
+            }
         }
     }
 
     public static void sendContinuedMessageToAll(final String message) {
-        FMLClientHandler.instance().getClient().ingameGUI.getChatGUI().printChatMessage((IChatComponent)new ChatComponentTranslation("�A" + message, new Object[0]));
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+            FMLClientHandler.instance().getClient().ingameGUI.getChatGUI().printChatMessage(
+                new ChatComponentTranslation("§A" + message));
+        }
     }
 
     public static Item.ToolMaterial addMeleeMaterial(final int maxUses, final float damage, final int enchantability) {
